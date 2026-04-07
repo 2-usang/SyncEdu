@@ -1,11 +1,13 @@
 # SyncEdu — 프로젝트 규칙
 
 ## 프로젝트 개요
+
 IT학원 실시간 수업 보조 시스템.
 강사가 수업을 진행하는 동안 AI가 학생별 이해 병목을 감지하고 실시간 보조를 제공한다.
 사용자 역할: instructor (강사), student (수강생)
 
 ## 기술 스택
+
 - Next.js 14 (App Router) + TypeScript
 - Tailwind CSS + shadcn/ui
 - Supabase (PostgreSQL + Auth + Realtime)
@@ -15,6 +17,7 @@ IT학원 실시간 수업 보조 시스템.
 - 배포: Vercel
 
 ## 폴더 구조 및 담당
+
 /src/app/student/ — 학생 전용 페이지 (A 담당)
 /src/app/instructor/ — 강사 전용 페이지 (B 담당)
 /src/app/api/ — API 라우트 (C 담당)
@@ -27,6 +30,7 @@ IT학원 실시간 수업 보조 시스템.
 /src/constants/ — 상수, 시스템 프롬프트 (수정 시 팀 알림)
 
 ## 디자인 규칙
+
 - 다크모드 기본
 - Primary: #3B82F6 (파란색)
 - Success/이해됨: #22C55E (초록)
@@ -38,6 +42,7 @@ IT학원 실시간 수업 보조 시스템.
 - 차트: recharts
 
 ## 코딩 컨벤션
+
 - 컴포넌트 파일: PascalCase (예: StatusButton.tsx)
 - 유틸/훅 파일: kebab-case (예: use-realtime.ts)
 - API 라우트: /api/[기능]/route.ts
@@ -45,8 +50,10 @@ IT학원 실시간 수업 보조 시스템.
 - 'use client'는 필요한 컴포넌트에만
 - 주석은 한국어로
 - console.log는 커밋 전 제거
+- 코드 포맷팅은 Prettier가 관리한다. 코드 수정 후 및 커밋 전 `npm run format` 실행 필수.
 
 ## 중요 제약
+
 - 다른 담당자의 폴더 직접 수정 금지
 - 공유 파일 수정 시 팀 채널에 알림
 - API Key 하드코딩 절대 금지, 환경변수만 사용
