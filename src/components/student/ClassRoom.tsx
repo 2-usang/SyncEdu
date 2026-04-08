@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { createClient } from '@/lib/supabase/client';
 import { StudentStatus } from '@/types';
 
@@ -40,6 +42,7 @@ export default function ClassRoom({
   checkpoints,
   initialCheckpointOrder,
 }: ClassRoomProps) {
+  const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(initialCheckpointOrder);
   const [selectedStatus, setSelectedStatus] = useState<StudentStatus | null>(null);
   const [sending, setSending] = useState(false);
@@ -63,6 +66,12 @@ export default function ClassRoom({
           filter: `id=eq.${classId}`,
         },
         (payload) => {
+          // 수업 종료 시 학생 메인으로 리다이렉트
+          if (payload.new.status === 'ended') {
+            router.push('/student');
+            return;
+          }
+
           const newOrder = payload.new.current_checkpoint_order;
           if (typeof newOrder === 'number') {
             setCurrentOrder(newOrder);

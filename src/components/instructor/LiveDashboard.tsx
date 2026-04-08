@@ -39,6 +39,7 @@ export default function LiveDashboard({
   const [students, setStudents] = useState<StudentState[]>(initialStudents);
   const [currentOrder, setCurrentOrder] = useState(initialCheckpointOrder);
   const [advancing, setAdvancing] = useState(false);
+  const [ending, setEnding] = useState(false);
 
   const currentCheckpoint = checkpoints.find((cp) => cp.order_num === currentOrder);
 
@@ -122,6 +123,19 @@ export default function LiveDashboard({
     };
   }, [classId]);
 
+  // 수업 종료
+  async function handleEndClass() {
+    if (ending) return;
+    const confirmed = window.confirm('수업을 종료하시겠습니까? 학생들이 즉시 퇴장됩니다.');
+    if (!confirmed) return;
+
+    setEnding(true);
+    const supabase = createClient();
+    await supabase.from('classes').update({ status: 'ended' }).eq('id', classId);
+    // 강사는 종료 후 인스트럭터 메인으로 이동
+    window.location.href = '/instructor';
+  }
+
   // 체크포인트 전환
   async function handleAdvanceCheckpoint() {
     if (advancing || currentOrder >= checkpoints.length) return;
@@ -169,15 +183,24 @@ export default function LiveDashboard({
               {currentCheckpoint?.title ?? '체크포인트 없음'}
             </h2>
           </div>
-          {currentOrder < checkpoints.length && (
+          <div className="flex gap-2">
+            {currentOrder < checkpoints.length && (
+              <button
+                onClick={handleAdvanceCheckpoint}
+                disabled={advancing}
+                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                {advancing ? '전환 중...' : '다음 체크포인트 →'}
+              </button>
+            )}
             <button
-              onClick={handleAdvanceCheckpoint}
-              disabled={advancing}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-colors disabled:opacity-50"
+              onClick={handleEndClass}
+              disabled={ending}
+              className="px-4 py-2 rounded-xl bg-red-700 hover:bg-red-600 text-white text-sm font-medium transition-colors disabled:opacity-50"
             >
-              {advancing ? '전환 중...' : '다음 체크포인트 →'}
+              {ending ? '종료 중...' : '수업 종료'}
             </button>
-          )}
+          </div>
         </div>
       </div>
 
