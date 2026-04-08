@@ -1,1 +1,3 @@
-export default function StudentClassPage() { return null; }
+export default function StudentClassPage() {
+  return null;
+}

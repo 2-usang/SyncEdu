@@ -1,1 +1,3 @@
-export default function InstructorReportPage() { return null; }
+export default function InstructorReportPage() {
+  return null;
+}
