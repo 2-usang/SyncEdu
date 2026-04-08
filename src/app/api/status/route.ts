@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getAuthUser } from '@/lib/supabase/api-auth';
 import { StudentStatus, StatusSource } from '@/types';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -26,6 +27,12 @@ const VALID_SOURCES: StatusSource[] = ['manual', 'auto_idle', 'auto_error', 'aut
 // POST — 학생 상태 저장
 export async function POST(request: NextRequest) {
   try {
+    // 인증 검증
+    const user = await getAuthUser(request);
+    if (!user) {
+      return NextResponse.json({ success: false, error: '인증이 필요합니다.' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { session_id, checkpoint_id, status, source } = body;
 
@@ -77,6 +84,12 @@ export async function POST(request: NextRequest) {
 // GET — 특정 수업의 학생별 최신 상태 조회 (강사 대시보드용)
 export async function GET(request: NextRequest) {
   try {
+    // 인증 검증
+    const user = await getAuthUser(request);
+    if (!user) {
+      return NextResponse.json({ success: false, error: '인증이 필요합니다.' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const class_id = searchParams.get('class_id');
 
