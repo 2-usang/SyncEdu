@@ -14,17 +14,24 @@ IT학원 실시간 수업 보조 시스템.
 - Recharts (차트)
 - 배포: Vercel
 
-## 폴더 구조 및 담당
-/src/app/student/ — 학생 전용 페이지 (A 담당)
-/src/app/instructor/ — 강사 전용 페이지 (B 담당)
-/src/app/api/ — API 라우트 (C 담당)
-/src/app/(auth)/ — 인증 페이지 (A 담당)
-/src/components/student/ — 학생 화면 컴포넌트 (A 담당)
-/src/components/instructor/ — 강사 화면 컴포넌트 (B 담당)
-/src/components/common/ — 공통 컴포넌트 (수정 시 팀 알림)
-/src/lib/ — Supabase, OpenAI, 유틸 (C 담당)
-/src/types/ — 타입 정의 (수정 시 팀 알림)
-/src/constants/ — 상수, 시스템 프롬프트 (수정 시 팀 알림)
+## 폴더 구조
+/src/app/student/ — 학생 전용 페이지
+/src/app/instructor/ — 강사 전용 페이지
+/src/app/api/ — API 라우트
+/src/app/(auth)/ — 인증 페이지
+/src/components/student/ — 학생 화면 컴포넌트
+/src/components/instructor/ — 강사 화면 컴포넌트
+/src/components/common/ — 공통 컴포넌트
+/src/lib/ — Supabase, OpenAI, 유틸
+/src/types/ — 타입 정의
+/src/constants/ — 상수, 시스템 프롬프트
+
+## 협업 규칙
+- 팀원 3명이 태스크 단위로 작업을 나눠서 진행한다
+- 작업 시작 전 팀 채널에 "나 지금 태스크 OO 시작한다" 공유 필수
+- 같은 파일을 두 명이 동시에 수정하지 않는다
+- 공유 파일 (types/index.ts, constants/, components/common/) 수정 시 팀 채널에 알림
+- DB 테이블 구조 변경 시 팀 채널에 알림
 
 ## 디자인 규칙
 - 다크모드 기본
