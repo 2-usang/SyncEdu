@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getAuthUser } from '@/lib/supabase/api-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 /*
@@ -27,6 +28,12 @@ import { NextRequest, NextResponse } from 'next/server';
 // POST — 체크포인트 시작 기록 (중복이면 무시)
 export async function POST(request: NextRequest) {
   try {
+    // 인증 검증
+    const user = await getAuthUser(request);
+    if (!user) {
+      return NextResponse.json({ success: false, error: '인증이 필요합니다.' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { session_id, checkpoint_id } = body;
 
@@ -79,6 +86,12 @@ export async function POST(request: NextRequest) {
 // PATCH — 체크포인트 완료 기록
 export async function PATCH(request: NextRequest) {
   try {
+    // 인증 검증
+    const user = await getAuthUser(request);
+    if (!user) {
+      return NextResponse.json({ success: false, error: '인증이 필요합니다.' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { session_id, checkpoint_id } = body;
 
@@ -128,6 +141,12 @@ export async function PATCH(request: NextRequest) {
 // GET — 특정 수업의 전체 체크포인트 진도 현황 조회
 export async function GET(request: NextRequest) {
   try {
+    // 인증 검증
+    const user = await getAuthUser(request);
+    if (!user) {
+      return NextResponse.json({ success: false, error: '인증이 필요합니다.' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const class_id = searchParams.get('class_id');
 

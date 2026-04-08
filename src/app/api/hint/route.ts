@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getAuthUser } from '@/lib/supabase/api-auth';
 import openai from '@/lib/openai';
 import { HINT_SYSTEM_PROMPT } from '@/constants/prompts';
 import { HintResponse, StudentStatus } from '@/types';
@@ -33,6 +34,12 @@ const VALID_STATUSES: StudentStatus[] = ['understanding', 'confused', 'stuck'];
 // POST — AI 힌트 생성
 export async function POST(request: NextRequest) {
   try {
+    // 인증 검증
+    const user = await getAuthUser(request);
+    if (!user) {
+      return NextResponse.json({ success: false, error: '인증이 필요합니다.' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { checkpoint_id, student_status, student_code, error_message, session_id } = body;
 
@@ -141,4 +148,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
-
